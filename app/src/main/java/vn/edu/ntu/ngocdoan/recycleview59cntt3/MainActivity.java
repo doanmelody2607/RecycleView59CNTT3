@@ -1,12 +1,17 @@
 package vn.edu.ntu.ngocdoan.recycleview59cntt3;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
@@ -25,10 +30,12 @@ public class MainActivity extends AppCompatActivity
     ArrayList<Product> listProduct;
     ProductAdapter adapter;
     RecyclerView rvListProduct;
+    ActionBar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         addViews();
     }
 
@@ -40,6 +47,36 @@ public class MainActivity extends AppCompatActivity
         listProduct = controller.getListProduct();
         adapter = new ProductAdapter(listProduct);
         rvListProduct.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_cart, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        int id = item.getItemId();
+        switch (id)
+        {
+            case R.id.mnu_cart:
+                callShoppingCartActivity();
+                break;
+            case R.id.mnu_close:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    private void callShoppingCartActivity()
+    {
+        Intent intent = new Intent(this, ShoppingCartActivity.class);
+        startActivity(intent);
     }
 
     // Lớp cài đặt cho việc hiển thị của một Product
@@ -68,9 +105,15 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onClick(View v)
         {
-            Toast.makeText(MainActivity.this,
-                    "Bạn đưa sản phẩm: " + p.getName() + " vào giỏ hàng",
-                    Toast.LENGTH_SHORT).show();
+            ICartController controller = (ICartController) getApplication();
+            if(!controller.addToShoppingCart(p))
+                Toast.makeText(MainActivity.this,
+                        "SP " + p.getName() + " đã có trong giỏ hàng",
+                        Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(MainActivity.this,
+                        "Đã thêm sp " + p.getName() + " vào giỏ hàng",
+                        Toast.LENGTH_SHORT).show();
         }
     }
 

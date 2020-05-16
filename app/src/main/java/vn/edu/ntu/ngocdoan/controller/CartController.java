@@ -9,6 +9,7 @@ import vn.edu.ntu.ngocdoan.model.Product;
 public class CartController extends Application implements ICartController
 {
     ArrayList<Product> listProduct = new ArrayList<>();
+    ArrayList<Product> shoppingCart = new ArrayList<>();
 
     public CartController()
     {
@@ -24,5 +25,29 @@ public class CartController extends Application implements ICartController
     @Override
     public ArrayList<Product> getListProduct() {
         return listProduct;
+    }
+
+    @Override
+    public ArrayList<Product> getShoppingCart()
+    {
+        return shoppingCart;
+    }
+
+
+    @Override
+    public boolean addToShoppingCart(Product p)
+    {
+        if (!shoppingCart.contains(p))
+        {
+            shoppingCart.add(p);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void clearShoppingCart()
+    {
+        shoppingCart.clear();
     }
 }
