@@ -48,6 +48,17 @@ public class ShoppingCartActivity extends AppCompatActivity
                         Toast.LENGTH_SHORT).show();
             }
         });
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ICartController controller = (ICartController) ShoppingCartActivity.this.getApplication();
+                txtCartInfo.setText("Cám ơn quý khách đã mua hàng!");
+                Toast.makeText(ShoppingCartActivity.this,
+                        "Xác nhận mua hàng",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
