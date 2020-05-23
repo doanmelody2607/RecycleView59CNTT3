@@ -28,6 +28,15 @@
             android:textSize="20sp"
             android:text="TextView" />
 
+        <TextView
+            android:id="@+id/txtTotal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textEnd"
+            android:textSize="25sp"
+            android:textColor="@color/colorRed"
+            android:text="TextView" />
+
     </LinearLayout>
 
     <LinearLayout
